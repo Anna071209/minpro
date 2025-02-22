@@ -6,13 +6,13 @@ from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QPushButton
 
 SCREEN_SIZE = [600, 450]
-a, b = 20, 20
 
 class Example(QWidget):
     def __init__(self):
-        global a, b
+        self.a =20
+        self.b = 20
         super().__init__()
-        self.getImage(a, b)
+        self.getImage(self.a, self.b)
         self.initUI()
 
     def getImage(self, a, b):
@@ -55,22 +55,22 @@ class Example(QWidget):
         os.remove(self.map_file)
 
     def run1(self):
-        global a, b
-        a /= 2
-        b /= 2
+        self.a /= 2
+        self.b /= 2
+        if self.a < 1 or self.b < 1:
+            pass
         self.update_map()
 
     def run2(self):
-        global a, b
-        a *= 2
-        b *= 2
+        self.a *= 2
+        self.b *= 2
         self.update_map()
 
     def update_map(self):
         server_address = 'https://static-maps.yandex.ru/v1?'
         api_key = 'f3a0fe3a-b07e-4840-a1da-06f18b2ddf13'
         ll = 'll=136.068544%2C-23.866516&spn='
-        map_request = f"{server_address}{ll}{a},{b}&apikey={api_key}"
+        map_request = f"{server_address}{ll}{self.a},{self.b}&apikey={api_key}"
         response = requests.get(map_request)
         self.map_file = "map.png"
         with open(self.map_file, "wb") as file:
